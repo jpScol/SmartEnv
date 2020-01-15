@@ -1,0 +1,29 @@
+{
+  "name": "web_server",
+  "version": "1.0.0",
+  "description": "server for arduino project",
+  "main": "server_js.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpScol/SmartEnv.git"
+  },
+  "keywords": [
+    "arduino",
+    "server",
+    "js",
+    "socket"
+  ],
+  "author": "DanielC-N",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jpScol/SmartEnv/issues"
+  },
+  "homepage": "https://github.com/jpScol/SmartEnv#readme",
+  "dependencies": {
+    "http": "0.0.0",
+    "ws": "^7.2.1"
+  }
+}
