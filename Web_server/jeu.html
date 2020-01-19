@@ -23,6 +23,15 @@ function startGame() {
     myGameArea.start();
 }
 
+function restartGame() {
+    myGamePiece.x = 10;
+    myGamePiece.y = 120;
+    myGamePiece.gravity = 0.05;
+	myGamePiece.gravitySpeed = 0;
+	myGameArea.frameNo = 0;
+	myObstacles = [];
+}
+
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
@@ -139,6 +148,7 @@ function accelerate(n) {
 </script>
 <br>
 <button onmousedown="accelerate(-0.4)" onmouseup="accelerate(0.1)">ACCELERATE</button>
+<input id="restart" type="button" value="RESTART" onclick="restartGame();" />
 <p>Use the ACCELERATE button to stay in the air</p>
 <p>How long can you stay alive?</p>
 </body>
