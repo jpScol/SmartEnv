@@ -3,3 +3,12 @@ node_modules/
 keys/
 private.key
 
+## OS Specific
+.DS_Store
+Thumbs.db
+
+
+## vs code
+/.vscode/
+
+
