@@ -28,12 +28,12 @@ async function getPosition(){
 		function (error, response, body) {
 			// console.log('error:', error); // Print the error if one occurred
 			// console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-			console.log('body:', body); // Print the HTML for the Google homepage.
-			res = JSON.parse(body);
-			positionGamer = res.Y_Gamer;
-			positionToReach = Math.floor((res.Ymax_Gap - res.Ymin_Gap) / 2);
-			console.log("positionGamer : "+positionGamer);
-			console.log("positionToReach : " +positionToReach);
+			// console.log('body:', body); // Print the HTML for the Google homepage.
+			// res = JSON.parse(body);
+			// positionGamer = res.Y_Gamer;
+			// positionToReach = Math.floor((res.Ymax_Gap - res.Ymin_Gap) / 2);
+			// console.log("positionGamer : "+positionGamer);
+			// console.log("positionToReach : " +positionToReach);
 		});
 }
 

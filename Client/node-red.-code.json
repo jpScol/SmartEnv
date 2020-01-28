@@ -1,0 +1,232 @@
+[
+    {
+        "id": "43706495.69fbec",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "1d5166c3.565e09",
+        "type": "debug",
+        "z": "43706495.69fbec",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 630,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "a3e2c31e.fe9908",
+        "type": "inject",
+        "z": "43706495.69fbec",
+        "name": "",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 290,
+        "y": 240,
+        "wires": [
+            [
+                "9dda180f.5d138",
+                "ea4d0801.7918d",
+                "c8f6f13a.6ef36"
+            ]
+        ]
+    },
+    {
+        "id": "6ae8f116.5d51c8",
+        "type": "inject",
+        "z": "43706495.69fbec",
+        "name": "",
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 290,
+        "y": 300,
+        "wires": [
+            [
+                "ea4d0801.7918d",
+                "9dda180f.5d138",
+                "c8f6f13a.6ef36"
+            ]
+        ]
+    },
+    {
+        "id": "c8f6f13a.6ef36",
+        "type": "arduino out",
+        "z": "43706495.69fbec",
+        "name": "led_7_blue",
+        "pin": "7",
+        "state": "OUTPUT",
+        "arduino": "903d65de.5e8a6",
+        "x": 570,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "ea4d0801.7918d",
+        "type": "arduino out",
+        "z": "43706495.69fbec",
+        "name": "led_6_green",
+        "pin": "6",
+        "state": "OUTPUT",
+        "arduino": "903d65de.5e8a6",
+        "x": 570,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "9dda180f.5d138",
+        "type": "arduino out",
+        "z": "43706495.69fbec",
+        "name": "led_5_red",
+        "pin": "5",
+        "state": "OUTPUT",
+        "arduino": "903d65de.5e8a6",
+        "x": 560,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "c15e11c.fe5f3f",
+        "type": "arduino in",
+        "z": "43706495.69fbec",
+        "name": "sensor",
+        "pin": "0",
+        "state": "ANALOG",
+        "arduino": "903d65de.5e8a6",
+        "x": 130,
+        "y": 120,
+        "wires": [
+            [
+                "c0e2478a.98efc8"
+            ]
+        ]
+    },
+    {
+        "id": "c0e2478a.98efc8",
+        "type": "function",
+        "z": "43706495.69fbec",
+        "name": "switch_function",
+        "func": "var lamp = global.get(\"changeLamp\");\n\nif (lamp === null) {\n    global.set(\"changeLamp\",0);\n}\nif (msg.payload >= 900 && lamp != 1) {\n    global.set(\"changeLamp\", 1);\n    msg.payload = { changeLamp: 1 };\n    msg.headers = {'content-type':'application/x-www-form-urlencoded'};\n    return msg;\n} else if (msg.payload < 900 && lamp !== 0) {\n    global.set(\"changeLamp\", 0);\n    msg.payload = { changeLamp: 0 };\n    msg.headers = {'content-type':'application/x-www-form-urlencoded'};\n    return msg;\n}\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 280,
+        "y": 120,
+        "wires": [
+            [
+                "27ec2c31.c3a68c"
+            ]
+        ]
+    },
+    {
+        "id": "27ec2c31.c3a68c",
+        "type": "http request",
+        "z": "43706495.69fbec",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": false,
+        "url": "http://127.0.0.1:8880",
+        "tls": "",
+        "proxy": "",
+        "authType": "basic",
+        "x": 470,
+        "y": 120,
+        "wires": [
+            [
+                "1d5166c3.565e09"
+            ]
+        ]
+    },
+    {
+        "id": "35a34197.999dae",
+        "type": "http in",
+        "z": "43706495.69fbec",
+        "name": "",
+        "url": "/on",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 400,
+        "wires": [
+            [
+                "d5abf7b1.fb8718"
+            ]
+        ]
+    },
+    {
+        "id": "dbd2928b.5a95a",
+        "type": "http in",
+        "z": "43706495.69fbec",
+        "name": "",
+        "url": "/off",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 460,
+        "wires": [
+            [
+                "8458803.197af8"
+            ]
+        ]
+    },
+    {
+        "id": "d5abf7b1.fb8718",
+        "type": "function",
+        "z": "43706495.69fbec",
+        "name": "light ON",
+        "func": "msg.payload = true;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 300,
+        "y": 400,
+        "wires": [
+            [
+                "c8f6f13a.6ef36",
+                "ea4d0801.7918d",
+                "9dda180f.5d138"
+            ]
+        ]
+    },
+    {
+        "id": "8458803.197af8",
+        "type": "function",
+        "z": "43706495.69fbec",
+        "name": "light OFF",
+        "func": "msg.payload = false;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 320,
+        "y": 460,
+        "wires": [
+            [
+                "c8f6f13a.6ef36",
+                "ea4d0801.7918d",
+                "9dda180f.5d138"
+            ]
+        ]
+    },
+    {
+        "id": "903d65de.5e8a6",
+        "type": "arduino-board",
+        "z": "",
+        "device": "COM3"
+    }
+]

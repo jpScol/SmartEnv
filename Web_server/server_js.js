@@ -4,8 +4,11 @@ const express    = require('express');
 const bodyParser = require('body-parser');
 const app        = express();
 const fs         = require("fs");
+const request    = require("request");
 
 const port = 8880
+const urlON = "http://127.0.0.1:1880/on"
+const urlOFF = "http://127.0.0.1:1880/off"
 
 var lampStatus = 0;
 
@@ -27,7 +30,7 @@ app.post('/', (req, res) => {
     // res.send(parameters);
     if(req.body.changeLamp) {
         lampStatus = req.body.changeLamp;
-        // console.log("lampChanged");
+        console.log("lampChanged");
         res.send();
         return;
     }
@@ -40,6 +43,19 @@ app.post('/', (req, res) => {
         // console.log("request received !\n" + req.body.GETPOSITION);
         // res.set('Content-Type', 'application/json');
         res.json(parameters);
+        return;
+    }
+    if(req.body.LIGHTUP == 1) {
+        lampStatus = 1;
+        request.get(urlON);
+        res.send({});
+        return;
+    }
+    if(req.body.LIGHTDOWN == 1) {
+        lampStatus = 0;
+        request.get(urlOFF);
+        res.send({});
+        return;
     }
     // else if(req.body.GETPOSITION == 0) {
     //     lampStatus = req.bodys.LIGHTUP;
@@ -47,7 +63,6 @@ app.post('/', (req, res) => {
 });
 
 app.get('/', function (req, res) {
-    //arduino.write("255,125,000");
     fs.readFile('../jeu.html', function(err, data) {
         res.writeHead(200, {'Content-Type': 'text/html'});
         res.write(data);
