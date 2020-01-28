@@ -27,7 +27,7 @@ app.post('/', (req, res) => {
     // res.send(parameters);
     if(req.body.changeLamp) {
         lampStatus = req.body.changeLamp;
-        console.log("lampChanged");
+        // console.log("lampChanged");
         res.send();
         return;
     }
@@ -48,7 +48,7 @@ app.post('/', (req, res) => {
 
 app.get('/', function (req, res) {
     //arduino.write("255,125,000");
-    fs.readFile('./jeu.html', function(err, data) {
+    fs.readFile('../jeu.html', function(err, data) {
         res.writeHead(200, {'Content-Type': 'text/html'});
         res.write(data);
         res.end();
