@@ -1,31 +1,25 @@
 const WebSocket = require("ws");
-const http      = require("http");
+const http       = require("http");
+const express    = require('express');
+const bodyParser = require('body-parser');
+const app        = express();
 
-const port = 8000
+const port = 8880
 
-const server = http.createServer();
-const wss = new WebSocket.Server({ server });
+// const wss = new WebSocket.Server({ server });
 
-const clientsWS = {
-    "joueur": null,
-    "jeu": null,
-    "arduino": null 
-};
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+}));
 
-wss.on("connection", function connection(ws, req) {
-
-    ws.on("message", function received(message) {
-        let client = message["ID"]
-        clientsWS[client] = client
-
-        let ledValue = message["led_value"]
-        if(ledValue) {
-            console.log("ledValue : "+ledValue);
-        }
-    });
-
-    ws.send("nothing");
+app.post('/', (req, res) => {
+    console.log("request received !\n"+req.body)
+    res.send("salut !");
 });
+
+
+const server = http.createServer(app);
 
 server.listen(port, () => {
     console.log("server listening on port : "+port)
