@@ -15,6 +15,10 @@ canvas {
 var myGamePiece;
 var myObstacles = [];
 var myScore;
+var url = "http://127.0.0.1:8880/";
+var xhr = new XMLHttpRequest();
+var pressTheButton = false;
+var ACC = 4;
 
 function startGame() {
     myGamePiece = new component(15, 15, "red", 10, 120);
@@ -154,6 +158,35 @@ function accelerate(n) {
     myGamePiece.speedY = n;
   	myGamePiece.mitigateTimer = 20;
 }
+
+
+xhr.onreadystatechange = function() {
+    if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+        // rep = JSON.parse(xhr.response);
+        rep = JSON.parse(xhr.response);
+        // console.log("reponse received\n"+rep.lampStatus);
+        
+        if(rep.lampStatus == 1) pressTheButton = true;
+        else if(rep.lampStatus == 0) pressTheButton = false;
+        console.log("pressTheButton == \n"+pressTheButton);
+        if(pressTheButton && ACC > 0) {
+            ACC = -ACC;
+            accelerate(ACC);
+        }
+        else if(!pressTheButton && ACC < 0) {
+            ACC = -ACC;
+            accelerate(ACC);
+        }
+    }
+};
+
+setInterval(async function() {
+    xhr.open("POST", url);
+    xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("lampStatus=1");
+}, 100);
+
 </script>
 <br>
 <button onmousedown="accelerate(- 4)" onmouseup="accelerate(4)">UP</button>
