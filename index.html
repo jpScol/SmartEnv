@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style>
+        canvas {
+            border:1px solid #d3d3d3;
+            background-color: #f1f1f1;
+        }
+        </style>
+    </head>
+    <body onload="startGame()">
+        <button onmousedown="accelerate(- 4)" onmouseup="accelerate(4)">UP</button>
+        <input id="restart" type="button" value="RESTART" onclick="restartGame();" />
+        <p>Use the ACCELERATE button to stay in the air</p>
+        <p>How long can you stay alive?</p>
+        <script type="text/javascript" src="Client/jeu.js" ></script>
+    </body>
+</html>
