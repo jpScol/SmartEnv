@@ -3,7 +3,10 @@
 var myGamePiece;
 var myObstacles = [];
 var gaps = [];
+var reperes = []
 var myScore;
+var posY; 
+var gapY;
 
 function startGame() {
     myGamePiece = new component(15, 15, "red", 10, 120);
@@ -121,11 +124,11 @@ function updateGameArea() {
         minGap = 50;
         maxGap = 100;
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        gaps.push(gap);
+        gaps.push(height + (gap/2));
         myObstacles.push(new component(10, height, "green", x, 0));
         myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
     }
-    for (i = 0; i < myObstacles.length; i += 1) {
+    for (i = 0; i < myObstacles.length; i++) {
         myObstacles[i].x += -2;
         myObstacles[i].update();
     }
@@ -133,6 +136,14 @@ function updateGameArea() {
     myScore.update();
     myGamePiece.newPos();
     myGamePiece.update();
+    
+    for (i = 0; i < gaps.length; i++) {
+        posY = myGamePiece.y + 7.5; // position de joueur (centre)
+        console.log(posY);
+        gapY = gaps[i]; // coordonées gap (centre)
+        console.log(gapY);
+
+    }
 }
 
 function everyinterval(n) {
@@ -143,16 +154,24 @@ function everyinterval(n) {
 function accelerate(n) {
     myGamePiece.speedY = n;
     myGamePiece.mitigateTimer = 20;
-    // for(var i =0 ; i < gaps.length ; i++){
-    //     passParamsToGETRequest(i);
-    // }
-     
-}
 
+    //arr = passParamsToGETRequest(i);
+    /* reperes.push(new component(480, 1, "black", 0, posY));
+    reperes.push(new component(480, 1, "blue", 0, gapY));
+    for (i = 0; i < reperes.length; i++) {
+        reperes[i].update();
+    } */
+    
+}
+/*
 function passParamsToGETRequest(i){
-    var posY = myGamePiece.y; //position de joueur
+    var arr = new Array;
+    var posY = myGamePiece.y + 7.5; // position de joueur (centre)
     console.log(posY);
-    var gapY = gaps[i]; // coordonées Y de gap => il faut vérifer que posY < gapY
-    console.log(gapCenterY);
+    arr.push(posY);
+    var gapY = gaps[i]; // coordonées gap (centre)
+    console.log(gapY);
+    arr.push(gapY);
+    return arr;
 }
-
+*/
