@@ -22,7 +22,7 @@ var ACC = 4;
 
 function startGame() {
     myGamePiece = new component(15, 15, "red", 10, 120);
-    myGamePiece.speedY = 4;
+    myGamePiece.speedY = ACC;
   	myGamePiece.mitigateTimer = 2;
     myScore = new component("30px", "Consolas", "black", 280, 40, "text");
     myGameArea.start();
@@ -31,7 +31,7 @@ function startGame() {
 function restartGame() {
     myGamePiece.x = 10;
     myGamePiece.y = 120;
-    myGamePiece.speedY = 4;
+    myGamePiece.speedY = ACC;
   	myGamePiece.mitigateTimer = 2;
 	myGameArea.frameNo = 0;
 	myObstacles = [];
@@ -52,6 +52,22 @@ var myGameArea = {
     }
 }
 
+var firstObstacle = {
+  	index : 1,
+  	y_centre_obstacle : 0,
+  	y_centre_piece : 0,
+  	update : function(){
+      if (myObstacles[this.index].x + myObstacles[this.index].width < myGamePiece.x){
+        this.index += 2;
+      }
+      let up = myObstacles[this.index - 1];
+      let down = myObstacles[this.index];
+      this.y_centre_obstacle = (up.y + up.height + down.y) / 2;
+      this.y_centre_piece = myGamePiece.y + myGamePiece.height / 2;
+    }
+};
+  
+  
 function component(width, height, color, x, y, type) {
     this.type = type;
     this.score = 0;
@@ -147,6 +163,7 @@ function updateGameArea() {
     myScore.update();
     myGamePiece.newPos();
     myGamePiece.update();
+  	firstObstacle.update();
 }
 
 function everyinterval(n) {
@@ -189,7 +206,7 @@ setInterval(async function() {
 
 </script>
 <br>
-<button onmousedown="accelerate(- 4)" onmouseup="accelerate(4)">UP</button>
+<button onmousedown="accelerate(-ACC)" onmouseup="accelerate(ACC)">UP</button>
 <input id="restart" type="button" value="RESTART" onclick="restartGame();" />
 <p>Use the ACCELERATE button to stay in the air</p>
 <p>How long can you stay alive?</p>
