@@ -35,6 +35,9 @@ app.post('/', (req, res) => {
         return;
     }
     if(req.body.lampStatus == 1) {
+        parameters.Y_Gamer = req.body.Y_Gamer;
+        parameters.Ymax_Gap = req.body.Ymax_Gap;
+        parameters.Ymin_Gap = req.body.Ymin_Gap;
         res.json({lampStatus : lampStatus});
         return;
     }
