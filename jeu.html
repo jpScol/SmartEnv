@@ -52,6 +52,22 @@ var myGameArea = {
     }
 }
 
+var firstObstacle = {
+  	index : 1,
+  	y_centre_obstacle : 0,
+  	y_centre_piece : 0,
+  	update : function(){
+      if (myObstacles[this.index].x + myObstacles[this.index].width < myGamePiece.x){
+        this.index += 2;
+      }
+      let up = myObstacles[this.index - 1];
+      let down = myObstacles[this.index];
+      this.y_centre_obstacle = (up.y + up.height + down.y) / 2;
+      this.y_centre_piece = myGamePiece.y + myGamePiece.height / 2;
+    }
+};
+  
+  
 function component(width, height, color, x, y, type) {
     this.type = type;
     this.score = 0;
@@ -147,6 +163,7 @@ function updateGameArea() {
     myScore.update();
     myGamePiece.newPos();
     myGamePiece.update();
+  	firstObstacle.update();
 }
 
 function everyinterval(n) {
