@@ -19,6 +19,7 @@ var url = "http://127.0.0.1:8880/";
 var xhr = new XMLHttpRequest();
 var pressTheButton = false;
 var ACC = 4;
+var IA_mode = false;
 
 function startGame() {
     myGamePiece = new component(15, 15, "red", 10, 120);
@@ -156,7 +157,7 @@ function updateGameArea() {
         myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
     }
     for (i = 0; i < myObstacles.length; i += 1) {
-        myObstacles[i].x += -2;
+        myObstacles[i].x -= ACC / 2;
         myObstacles[i].update();
     }
     myScore.text="SCORE: " + myGameArea.frameNo;
@@ -171,14 +172,17 @@ function everyinterval(n) {
     return false;
 }
 
-function accelerate(n) {
-    myGamePiece.speedY = n;
-  	myGamePiece.mitigateTimer = 20;
+function accelerate(n, from_web) {
+	if (from_web == IA_mode){
+		myGamePiece.speedY = n;
+		myGamePiece.mitigateTimer = 20;
+	}
 }
 
 
 xhr.onreadystatechange = function() {
     if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+        // rep = JSON.parse(xhr.response);
         rep = JSON.parse(xhr.response);
         // console.log("reponse received\n"+rep.lampStatus);
         
@@ -187,11 +191,11 @@ xhr.onreadystatechange = function() {
         // console.log("pressTheButton == \n"+pressTheButton);
         if(pressTheButton && ACC > 0) {
             ACC = -ACC;
-            accelerate(ACC);
+            accelerate(ACC, true);
         }
         else if(!pressTheButton && ACC < 0) {
             ACC = -ACC;
-            accelerate(ACC);
+            accelerate(ACC, true);
         }
     }
 };
@@ -205,8 +209,9 @@ setInterval(async function() {
 
 </script>
 <br>
-<button onmousedown="accelerate(-ACC)" onmouseup="accelerate(ACC)">UP</button>
+<button onmousedown="accelerate(-ACC, false)" onmouseup="accelerate(ACC, false)">UP</button>
 <input id="restart" type="button" value="RESTART" onclick="restartGame();" />
+<input id="mode" type="button" value="CHANGE MODE" onclick="change_mode();" />
 <p>Use the ACCELERATE button to stay in the air</p>
 <p>How long can you stay alive?</p>
 </body>
