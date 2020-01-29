@@ -179,7 +179,6 @@ function accelerate(n) {
 
 xhr.onreadystatechange = function() {
     if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-        // rep = JSON.parse(xhr.response);
         rep = JSON.parse(xhr.response);
         // console.log("reponse received\n"+rep.lampStatus);
         
@@ -198,10 +197,10 @@ xhr.onreadystatechange = function() {
 };
 
 setInterval(async function() {
-    xhr.open("POST", url);
-    xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send("lampStatus=1");
+    await xhr.open("POST", url);
+    await xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+    await xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    await xhr.send("lampStatus=1&Y_center_piece="+firstObstacle.y_centre_piece+"&Y_center_obstacle="+firstObstacle.y_centre_obstacle);
 }, 100);
 
 </script>

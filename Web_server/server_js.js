@@ -13,9 +13,8 @@ const urlOFF = "http://127.0.0.1:1880/off"
 var lampStatus = 0;
 
 const parameters = {
-    Y_Gamer : 0,
-    Ymin_Gap : 0,
-    Ymax_Gap : 0
+    Y_center_piece : 0,
+    Y_center_obstacle : 0
 }
 
 // const wss = new WebSocket.Server({ server });
@@ -30,11 +29,14 @@ app.post('/', (req, res) => {
     // res.send(parameters);
     if(req.body.changeLamp) {
         lampStatus = req.body.changeLamp;
-        console.log("lampChanged");
+        console.log("lampChanged : "+lampStatus);
         res.send();
         return;
     }
     if(req.body.lampStatus == 1) {
+        parameters.Y_center_piece = req.body.Y_center_piece;
+        parameters.Y_center_obstacle = req.body.Y_center_obstacle;
+        console.log(parameters);
         res.json({lampStatus : lampStatus});
         return;
     }
@@ -57,9 +59,6 @@ app.post('/', (req, res) => {
         res.send({});
         return;
     }
-    // else if(req.body.GETPOSITION == 0) {
-    //     lampStatus = req.bodys.LIGHTUP;
-    // }
 });
 
 app.get('/', function (req, res) {
