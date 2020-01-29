@@ -140,6 +140,15 @@ function updateGameArea() {
     var x, height, gap, minHeight, maxHeight, minGap, maxGap;
     for (i = 0; i < myObstacles.length; i += 1) {
         if (myGamePiece.crashWith(myObstacles[i])) {
+			myGameArea.clear();
+			myScore.text="SCORE: " + myGameArea.frameNo;
+			myScore.update();
+			myGamePiece.newPos();
+			myGamePiece.update();
+			firstObstacle.update();
+			for (i = 0; i < myObstacles.length; i += 1) {
+				myObstacles[i].update();
+			}
             return;
         } 
     }
@@ -199,6 +208,11 @@ xhr.onreadystatechange = function() {
         }
     }
 };
+
+function change_mode(){
+	IA_mode = !IA_mode;
+	restartGame();
+}
 
 setInterval(async function() {
     await xhr.open("POST", url);
