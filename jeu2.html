@@ -19,6 +19,7 @@ var url = "http://127.0.0.1:8880/";
 var xhr = new XMLHttpRequest();
 var pressTheButton = false;
 var ACC = 4;
+var IA_mode = false;
 
 function startGame() {
     myGamePiece = new component(15, 15, "red", 10, 120);
@@ -180,9 +181,11 @@ function everyinterval(n) {
     return false;
 }
 
-function accelerate(n) {
-    myGamePiece.speedY = n;
-  	myGamePiece.mitigateTimer = 20;
+function accelerate(n, from_web) {
+	if (from_web == IA_mode){
+		myGamePiece.speedY = n;
+		myGamePiece.mitigateTimer = 20;
+	}
 }
 
 
@@ -197,14 +200,19 @@ xhr.onreadystatechange = function() {
         // console.log("pressTheButton == \n"+pressTheButton);
         if(pressTheButton && ACC > 0) {
             ACC = -ACC;
-            accelerate(ACC);
+            accelerate(ACC, true);
         }
         else if(!pressTheButton && ACC < 0) {
             ACC = -ACC;
-            accelerate(ACC);
+            accelerate(ACC, true);
         }
     }
 };
+
+function change_mode(){
+	IA_mode = !IA_mode;
+	restartGame();
+}
 
 setInterval(async function() {
     xhr.open("POST", url);
@@ -215,8 +223,9 @@ setInterval(async function() {
 
 </script>
 <br>
-<button onmousedown="accelerate(-ACC)" onmouseup="accelerate(ACC)">UP</button>
+<button onmousedown="accelerate(-ACC, false)" onmouseup="accelerate(ACC, false)">UP</button>
 <input id="restart" type="button" value="RESTART" onclick="restartGame();" />
+<input id="mode" type="button" value="CHANGE MODE" onclick="change_mode();" />
 <p>Use the ACCELERATE button to stay in the air</p>
 <p>How long can you stay alive?</p>
 </body>
