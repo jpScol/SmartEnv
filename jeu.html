@@ -22,7 +22,7 @@ var ACC = 4;
 
 function startGame() {
     myGamePiece = new component(15, 15, "red", 10, 120);
-    myGamePiece.speedY = 4;
+    myGamePiece.speedY = ACC;
   	myGamePiece.mitigateTimer = 2;
     myScore = new component("30px", "Consolas", "black", 280, 40, "text");
     myGameArea.start();
@@ -31,7 +31,7 @@ function startGame() {
 function restartGame() {
     myGamePiece.x = 10;
     myGamePiece.y = 120;
-    myGamePiece.speedY = 4;
+    myGamePiece.speedY = ACC;
   	myGamePiece.mitigateTimer = 2;
 	myGameArea.frameNo = 0;
 	myObstacles = [];
@@ -189,7 +189,7 @@ setInterval(async function() {
 
 </script>
 <br>
-<button onmousedown="accelerate(- 4)" onmouseup="accelerate(4)">UP</button>
+<button onmousedown="accelerate(-ACC)" onmouseup="accelerate(ACC)">UP</button>
 <input id="restart" type="button" value="RESTART" onclick="restartGame();" />
 <p>Use the ACCELERATE button to stay in the air</p>
 <p>How long can you stay alive?</p>
